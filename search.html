@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Search Patients </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/smart-forms.css">
+    <link rel="stylesheet" type="text/css" href="css/smart-themes/green.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <script src="jquery-1.9.1.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/api2/r20170228102020/recaptcha__en.js"></script><script src="jquery-1.9.1.min.js"></script>
+
+
+    <!-- // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKmud3S-6nyIZBm0MEi-4_Iqe4LRSugio&libraries=places&callback=initAutocomplete" async defer></script> -->
+    <!-- // <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places" async defer></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP--5OxLC0Faa8m4eKv8MUeRZslfV3Hm8&libraries=places"></script>
+
+
+
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/additional-methods.min.js"></script>
+
+    <!--[if lte IE 9]>   
+        <script type="text/javascript" src="js/jquery.placeholder.min.js"></script>
+    <![endif]-->
+
+    <!--[if lte IE 8]>
+        <link type="text/css" rel="stylesheet" href="css/smart-forms-ie8.css">
+    <![endif]-->
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+		   $('#submitb').click(function() {
+
+            /* @custom validation method (smartCaptcha) 
+                ------------------------------------------------------------------ */
+
+            $.validator.methods.smartCaptcha =
+                function(value,
+                    element,
+                    param) {
+                    return value ==
+                        param;
+                };
+
+            $("#account").validate({
+
+                /* @validation states + elements 
+                        ------------------------------------------- */
+
+                errorClass: "state-error",
+                validClass: "state-success",
+                errorElement: "em",
+
+                /* @validation rules 
+                        ------------------------------------------ */
+
+                rules: {
+                    search: {
+                        required: true
+                    },
+                    verification: {
+                        required: true,
+
+                    },
+  
+                    licence_no: {
+                        required: function(
+                            element
+                        ) {
+                            return
+                            $(
+                                    "#applicant_age"
+                                )
+                                .val() >
+                                19;
+                        }
+                    },
+                    child_name: {
+                        required: "#parents:checked"
+                    }
+
+                },
+
+                /* @validation error messages 
+                        ---------------------------------------------- */
+
+                messages: {
+                    search: {
+                        required: 'Enter the name'
+                    },
+                   
+                    verification: {
+                        required: 'Please accept our TOS.'
+                    }
+
+                },
+
+                /* @validation highlighting + error placement  
+                        ---------------------------------------------------- */
+
+                highlight: function(
+                    element,
+                    errorClass,
+                    validClass
+                ) {
+                    $
+                        (
+                            element
+                        )
+                        .closest(
+                            '.field'
+                        )
+                        .addClass(
+                            errorClass
+                        )
+                        .removeClass(
+                            validClass
+                        );
+                },
+                unhighlight: function(
+                    element,
+                    errorClass,
+                    validClass
+                ) {
+                    $
+                        (
+                            element
+                        )
+                        .closest(
+                            '.field'
+                        )
+                        .removeClass(
+                            errorClass
+                        )
+                        .addClass(
+                            validClass
+                        );
+                },
+                errorPlacement: function(
+                    error,
+                    element
+                ) {
+                    if (
+                        element
+                        .is(
+                            ":radio"
+                        ) ||
+                        element
+                        .is(
+                            ":checkbox"
+                        )
+                    ) {
+                        element
+                            .closest(
+                                '.option-group'
+                            )
+                            .after(
+                                error
+                            );
+                    } else {
+                        error
+                            .insertAfter(
+                                element
+                                .parent()
+                            );
+                    }
+                }
+
+            });
+
+        })
+		});
+		
+    </script>
+
+<script>
+
+function showDetails(str) {
+  
+  if (window.XMLHttpRequest) {
+  
+    xmlhttp=new XMLHttpRequest();
+  } else { 
+    xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  }
+  xmlhttp.onreadystatechange=function() {
+    if (this.readyState==4 && this.status==200) {
+      document.getElementById("listing").innerHTML=this.responseText;
+    }
+  }
+  xmlhttp.open("GET","list.php?q="+str,true);
+  xmlhttp.send();
+}
+
+</script>
+
+
+
+</head>
+
+<body class="woodbg">
+
+    <div class="smart-wrap">
+        <div class="smart-forms smart-container wrap-2 ">        
+
+
+            <form method="post" onsubmit="showDetails(this.value)" id="details">
+                <div class="form-body theme-green" style="color:black">
+
+                    <p> To search, enter the name of the patient </p>
+                    <label for="names" class="field-label"></label>
+                    <div class="frm-row">
+
+                        <div class="section colm colm6">
+                            <label class="field prepend-icon">
+                                <input type="text" name="search" id="search" class="gui-input" placeholder="name...">
+                                <span class="field-icon"><i class="fa fa-user"></i></span>
+                            </label>
+                        </div>
+						<div class="section colm colm6">
+								<button type="submit" id="submitb" class="button btn-green">Search</button>
+						</div>
+					</div>
+
+					
+					<div id="listing">
+					
+					
+					
+					
+					
+					</div>
+					
+					
+					

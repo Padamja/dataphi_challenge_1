@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title> Patient Registration </title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" type="text/css" href="css/smart-forms.css">
+    <link rel="stylesheet" type="text/css" href="css/smart-themes/green.css">
+    <link rel="stylesheet" type="text/css" href="css/font-awesome.min.css">
+    <script src="jquery-1.9.1.min.js"></script>
+    <script src='https://www.google.com/recaptcha/api.js'></script>
+    <script type="text/javascript" async="" src="https://www.gstatic.com/recaptcha/api2/r20170228102020/recaptcha__en.js"></script><script src="jquery-1.9.1.min.js"></script>
+
+
+    <!-- // <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBKmud3S-6nyIZBm0MEi-4_Iqe4LRSugio&libraries=places&callback=initAutocomplete" async defer></script> -->
+    <!-- // <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places" async defer></script> -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAP--5OxLC0Faa8m4eKv8MUeRZslfV3Hm8&libraries=places"></script>
+
+
+
+    <script type="text/javascript" src="js/jquery.validate.min.js"></script>
+    <script type="text/javascript" src="js/additional-methods.min.js"></script>
+
+    <!--[if lte IE 9]>   
+        <script type="text/javascript" src="js/jquery.placeholder.min.js"></script>
+    <![endif]-->
+
+    <!--[if lte IE 8]>
+        <link type="text/css" rel="stylesheet" href="css/smart-forms-ie8.css">
+    <![endif]-->
+
+    <script type="text/javascript">
+        $(document).ready(function(){
+		   $('#submitb').click(function() {
+
+            /* @custom validation method (smartCaptcha) 
+                ------------------------------------------------------------------ */
+
+            $.validator.methods.smartCaptcha =
+                function(value,
+                    element,
+                    param) {
+                    return value ==
+                        param;
+                };
+
+            $("#account").validate({
+
+                /* @validation states + elements 
+                        ------------------------------------------- */
+
+                errorClass: "state-error",
+                validClass: "state-success",
+                errorElement: "em",
+
+                /* @validation rules 
+                        ------------------------------------------ */
+
+                rules: {
+                    firstname: {
+                        required: true
+                    },
+                    lastname: {
+                        required: true
+                    },
+                    phonenumber: {
+                        required: true,
+                        minlength: 10
+                    },
+
+                    gender: {
+                        required: true
+                    },
+					date: {
+						required: true
+					},
+					age:{
+						required: true
+					},
+  
+                    verification: {
+                        required: true,
+
+                    },
+  
+                    username: {
+                        required: true
+                    },
+                    licence_no: {
+                        required: function(
+                            element
+                        ) {
+                            return
+                            $(
+                                    "#applicant_age"
+                                )
+                                .val() >
+                                19;
+                        }
+                    },
+                    child_name: {
+                        required: "#parents:checked"
+                    }
+
+                },
+
+                /* @validation error messages 
+                        ---------------------------------------------- */
+
+                messages: {
+                    firstname: {
+                        required: 'Enter first name'
+                    },
+                    lastname: {
+                        required: 'Enter last name'
+                    },
+                    gender: {
+                        required: 'Please choose a gender'
+                    },
+					date: {
+						required: 'Please select the suitable date'
+					},
+					age: {
+						required : 'Please enter your age'
+					},
+					phonenumber: {
+						required:'Enter a valid phone number'
+					},
+                    verification: {
+                        required: 'Please accept our TOS.'
+                    }
+
+                },
+
+                /* @validation highlighting + error placement  
+                        ---------------------------------------------------- */
+
+                highlight: function(
+                    element,
+                    errorClass,
+                    validClass
+                ) {
+                    $
+                        (
+                            element
+                        )
+                        .closest(
+                            '.field'
+                        )
+                        .addClass(
+                            errorClass
+                        )
+                        .removeClass(
+                            validClass
+                        );
+                },
+                unhighlight: function(
+                    element,
+                    errorClass,
+                    validClass
+                ) {
+                    $
+                        (
+                            element
+                        )
+                        .closest(
+                            '.field'
+                        )
+                        .removeClass(
+                            errorClass
+                        )
+                        .addClass(
+                            validClass
+                        );
+                },
+                errorPlacement: function(
+                    error,
+                    element
+                ) {
+                    if (
+                        element
+                        .is(
+                            ":radio"
+                        ) ||
+                        element
+                        .is(
+                            ":checkbox"
+                        )
+                    ) {
+                        element
+                            .closest(
+                                '.option-group'
+                            )
+                            .after(
+                                error
+                            );
+                    } else {
+                        error
+                            .insertAfter(
+                                element
+                                .parent()
+                            );
+                    }
+                }
+
+            });
+
+        })
+		});
+		
+    </script>
+
+    <script type="text/javascript">
+        function clicked() {
+            alert('Thanks for signing up!');
+        }
+    </script>
+
+
+
+
+    <!--[if lte IE 9]>
+        <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>    
+        <script type="text/javascript" src="js/jquery.placeholder.min.js"></script>
+    <![endif]-->
+
+    <!--[if lte IE 8]>
+        <link type="text/css" rel="stylesheet" href="css/smart-forms-ie8.css">
+    <![endif]-->
+
+</head>
+
+<body class="woodbg">
+
+    <div class="smart-wrap">
+        <div class="smart-forms smart-container wrap-2 ">
+			
+			<div style="background-color:#fffff;color:white;padding:5px;font-size:150%;" align="center" class="smart-forms-header smart-header wrap-3""form-header header-green">
+                <h4>Patient Details </h4>
+            </div>
+            
+
+
+            <form method="post" action="register.php" id="account">
+                <div class="form-body theme-green" style="color:white">
+
+                    <p> Hey! </br> To register, please fill out the mandatory details </p>
+                    <label for="names" class="field-label"></label>
+                    <div class="frm-row">
+
+                        <div class="section colm colm6">
+                            <label class="field prepend-icon">First Name
+                                <input type="text" name="firstname" id="firstname" class="gui-input" placeholder="First name...">
+                                <span class="field-icon"><i class="fa fa-user"></i></span>
+                            </label>
+                        </div>
+
+
+                        <div class="section colm colm6">
+                            <label class="field prepend-icon">Last Name
+                                <input type="text" name="lastname" id="lastname" class="gui-input" placeholder="Last name...">
+                                <span class="field-icon"><i class="fa fa-user"></i></span>
+                            </label>
+                        </div>
+
+
+                    </div>
+
+			<div class="frm-row">
+
+                    <div class="section colm colm6">
+                        <label class="field-label">Gender</label>
+                  
+						<div class="smart-forms.select>select">
+                            <label class="field prepend-icon smart-forms.select>select::ms-expand{display: Male;Female}">
+                                <input type="text" name="gender" id="gender" class="gui-input" >
+                                <span class="field-icon"><i class="fa fa-user"></i></span>
+                            </label>
+
+                        </div>
+					</div>
+
+				    <div class="section colm colm6">
+                        <label for="password" class="field-label">Date of Birth</label>
+                        <label class="field prepend-icon">
+                            <input type="date" name="date" id="date" class="gui-input">
+                            <span class="field-icon"><i class="fa fa-lock"></i></span>
+                        </label>
+                    </div>
+			</div>
+			
+				<div class="frm-row">
+                    <div class="section colm colm6">
+                        <label for="" class="field-label">Age</label>
+                        <label class="field prepend-icon">
+                            <input type="text" name="age" id="age" class="gui-input">
+                            <span class="field-icon"><i class="fa fa-unlock-alt"></i></span>
+                        </label>
+                    </div>
+		
+				
+				<div class="section colm colm6">
+                    <label for="comment" class="field-label">Phone Number
+                            </label>
+                            <label class="field prepend-icon">
+                                <span class="field-icon"><i class="fa fa-comments"></i></span>
+                                <input type="tel" name="phonenumber" id="phonenumber" class="gui-input" placeholder="PhoneNumber">
+                            </label>
+                    </div>
+			</div>
+	
+
+				<div class= frm-row>
+                     <div class="section colm colm12">
+                    <label for="phonenumber" class="field-label"> Additional Information
+                            </label>
+                            <label class="field prepend-icon">
+
+                                <input type="textarea" name="addinfo" id="addinfo" class="gui-input">
+                                <span class="field-icon"><i class="fa fa-comments"></i></span>
+                                
+                            </label>
+                    </div>
+				</div>
+                                      
+                    <div class="fb-login-button" data-max-rows="1" data-size="medium" data-show-faces="false" data-auto-logout-link="false"></div>
+                    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+                    <style>
+                        #map {
+                            height: 100%;
+                        }
+                    </style>
+                    
+                   <div class="section">
+                    <label for="verify" class="field-label"><br><br><br><br>Prove you're not a robot - </label>
+                    <br>
+                    <div class="g-recaptcha" data-sitekey="6LeMjBAUAAAAAGP3fPcb0CHO3eiQKd8XajY_i-F6"></div>
+                    </div>
+
+                    <div class="section">
+                        <div class="option-group field">
+                            <label class="option option-green">
+                                <input type="checkbox" name="verification">
+                                <span class="checkbox"></span> Agree to our <a class="various" data-fancybox-type="iframe" href="t&c.html"> terms of service </a>
+                            </label>
+                        </div>
+                    </div>
+                    </div>
+
+                     
+
+
+
+                <div class="form-footer">
+                    <button type="submit" id="submitb" class="button btn-green">Submit</button>
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+	
+    <script src="conditionize.jquery.js"></script>
+    <script>
+        $('.conditional').conditionize();
+    </script>
+</body>
+</html>
